@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnFib;
     EditText txtFib;
     Button btnFact;
+    Button btnPais;
     Spinner spinFact;
     TextView txtFibo, txtFac, txtFibDate, txtFacDate;
     String fechaFib = "", fechaFact = "";
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         this.txtFib = findViewById(R.id.txtPos);
         this.btnFact = findViewById(R.id.btnFact);
         this.spinFact = findViewById(R.id.spinnerFact);
+        this.btnPais = findViewById(R.id.btnPaises);
         txtFac = findViewById(R.id.facCount);
         txtFibo = findViewById(R.id.fibCount);
         txtFacDate = findViewById(R.id.facDate);
@@ -96,6 +98,15 @@ public class MainActivity extends AppCompatActivity {
                 txtFacDate.setText("Fecha Fact: " + fechaFact);
                 Intent intent = new Intent(getBaseContext(), FactorialActivity.class);
                 intent.putExtra("Numero", spinFact.getSelectedItem().toString());
+                startActivity(intent);
+            }
+        });
+
+        this.btnPais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getBaseContext(), PaisActivity.class);
                 startActivity(intent);
             }
         });
