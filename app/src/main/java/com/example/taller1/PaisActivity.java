@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class PaisActivity extends AppCompatActivity  {
 
         private ListView mListView;
         private List<String> mLista = new ArrayList<>();
+        private List<Pais> mPais = new ArrayList<>();
         private ArrayAdapter<String> mAdapter;
 
         @Override
@@ -51,8 +53,28 @@ public class PaisActivity extends AppCompatActivity  {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String nombre = jsonObject.getString("Name");
 
-                    Log.d("Nombre: ",nombre);
+                    Pais paisInfo = new Pais();
+                    paisInfo.setName(jsonObject.getString("Name"));
+                    paisInfo.setAlpha2code(jsonObject.getString("Alpha2Code"));
+                    paisInfo.setAlpah3code(jsonObject.getString("Alpha3Code"));
+                    paisInfo.setNativename(jsonObject.getString("NativeName"));
+                    paisInfo.setRegion(jsonObject.getString("Region"));
+                    paisInfo.setSubregion(jsonObject.getString("SubRegion"));
+                    paisInfo.setLatitude(jsonObject.getString("Latitude"));
+                    paisInfo.setLongitude(jsonObject.getString("Longitude"));
+                    paisInfo.setArea(jsonObject.getInt("Area"));
+                    paisInfo.setNumericCode(jsonObject.getInt("NumericCode"));
+                    paisInfo.setNativeLanguage(jsonObject.getString("NativeLanguage"));
+                    paisInfo.setCurrencyCode(jsonObject.getString("CurrencyCode"));
+                    paisInfo.setCurrencyName(jsonObject.getString("CurrencyName"));
+                    paisInfo.setCurrencySymbol(jsonObject.getString("CurrencySymbol"));
+                    paisInfo.setFlag(jsonObject.getString("Flag"));
+                    paisInfo.setFlagPng(jsonObject.getString("FlagPng"));
+
+
                     mLista.add(nombre);
+                    System.out.println(paisInfo.toString());
+                    mPais.add(paisInfo);
                 }
 
             }
@@ -60,6 +82,7 @@ public class PaisActivity extends AppCompatActivity  {
             catch(IOException | JSONException e){
                 e.printStackTrace();
             }
+
 
             mListView = findViewById(R.id.listaP);
             mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,mLista);
@@ -70,8 +93,11 @@ public class PaisActivity extends AppCompatActivity  {
                 @Override
                 public void onItemClick(AdapterView<?> parent,View view,int position,long id)
                 {
-
-                        startActivity(new Intent(PaisActivity.this, PaisinfoActivity.class));
+                        Intent intent = new Intent(PaisActivity.this,PaisinfoActivity.class);
+                        Pais pasar = mPais.get(position);
+                        intent.putExtra("Pais",pasar);
+                        Log.d("Nombre",pasar.getName());
+                        startActivity(intent);
 
 
                 }
