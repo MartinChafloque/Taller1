@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="109dp"
             android:gravity="center"
-            app:srcCompat="@drawable/ar"
+            app:srcCompat="@drawable/load"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"/>
 

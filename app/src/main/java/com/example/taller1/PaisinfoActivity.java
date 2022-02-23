@@ -1,8 +1,18 @@
 package com.example.taller1;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.InputStream;
 
 public class PaisinfoActivity extends AppCompatActivity {
 
@@ -20,7 +30,7 @@ public class PaisinfoActivity extends AppCompatActivity {
     TextView currencycode;
     TextView currencyname;
     TextView currencysymbol;
-
+    ImageView imageView2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +52,7 @@ public class PaisinfoActivity extends AppCompatActivity {
         currencycode= findViewById(R.id.currencycode);
         currencyname = findViewById(R.id.currencyname);
         currencysymbol=findViewById(R.id.currencysymbol);
+        imageView2 = findViewById(R.id.imageView2);
 
         nombrePais.setText(info.getName());
         alpha2code.setText(info.getAlpha2code());
@@ -58,6 +69,36 @@ public class PaisinfoActivity extends AppCompatActivity {
         currencyname.setText(info.getCurrencyName());
         currencysymbol.setText(info.getCurrencySymbol());
 
+        String url = info.getFlagPng();
+        new DownloadImageTask((ImageView) findViewById(R.id.imageView2))
+                .execute(url);
 
+
+    }
+
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 }
