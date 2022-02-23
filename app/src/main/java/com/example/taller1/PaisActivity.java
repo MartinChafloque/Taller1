@@ -2,9 +2,11 @@ package com.example.taller1;
 
 import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -49,15 +51,6 @@ public class PaisActivity extends AppCompatActivity  {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     String nombre = jsonObject.getString("Name");
 
-                    // Crear buttons
-                    /*Button button = new Button(this);
-                    button.setLayoutParams(lp);
-                    button.setText(nombre);
-                    button.setId(id);
-                    button.setOnClickListener(this);
-                    Botonera.addView(button);*/
-
-
                     Log.d("Nombre: ",nombre);
                     mLista.add(nombre);
                 }
@@ -69,15 +62,25 @@ public class PaisActivity extends AppCompatActivity  {
             }
 
             mListView = findViewById(R.id.listaP);
-            mostrar();
-
-        }
-
-        public void mostrar()
-        {
             mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,mLista);
             mListView.setAdapter(mAdapter);
+
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(AdapterView<?> parent,View view,int position,long id)
+                {
+
+                        startActivity(new Intent(PaisActivity.this, PaisinfoActivity.class));
+
+
+                }
+            });
+
         }
+
+
+
 
         public static String leerJson(Context context, String fileName) throws IOException
         {
